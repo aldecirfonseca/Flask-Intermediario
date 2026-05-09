@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block titulo %} Produtos {% endblock %}
+
+{% block conteudo %}
+
+    {# Loop pelos produtos #}
+    <ul>
+        {% for produto in produtos %}
+            <li>
+                {{ produto.nome }} - R$ {{ produto.preco }}
+            </li>
+        {% endfor %}
+    </ul>
+    
+    {% if produtos | length == 0 %}
+        <p>Nenhum produto disponível.</p>
+    {% endif %}
+
+{% endblock %}

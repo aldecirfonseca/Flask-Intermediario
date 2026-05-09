@@ -1,0 +1,25 @@
+# Crie um ambiente virtual
+python -m venv venv
+
+# Ative o ambiente (Linux/Mac)
+source venv/bin/activate
+
+# Ative o ambiente (Windows)
+venv\Scripts\activate.bat
+
+# instalar o flask
+pip install flask
+
+# verifique a instalação/versão do Flask
+flask --version
+
+
+# Gerar um arquivo contendo os pacotes Python instalados (geralmente chamado de requirements.txt) 
+# Este arquivo facilita as instalações futuras, o método padrão utiliza o comando pip freeze no terminal.
+
+pip freeze > requirements.txt
+
+
+# Para instalar os pacotes do arquivo requirements.txt, execute:
+
+pip install -r requirements.txt
