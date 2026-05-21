@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -14,6 +14,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']    = False
 
 # criando o objeto db, que vai conectar com a base, criar tabelas, fazer consultas
 db = SQLAlchemy(app)
+
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message = 'Faça login para continuar...'
 
 # classe modelo Produto
 """
@@ -46,6 +50,11 @@ class Usuario(UserMixin, db.Model):
     def check_senha(self, senha):
         return check_password_hash(self.senha_hash, senha) 
 
+#
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.get(Usuario, int(user_id))
+
 # Define o formulário de login
 class LoginForm(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()])
@@ -61,10 +70,7 @@ def index():
 
 @app.route("/produto")
 def produto():
-    produtos = [
-        {'nome': 'Notebook', 'preco': 6499.99},
-        {'nome': 'Mouse', 'preco': 75.99}
-    ]
+    produtos = Produto.query.all()
 
     return render_template(
             'produto.html',
@@ -85,18 +91,25 @@ def sobrenos():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        # se os dados forem válidos, redireciona para index
-        return render_template(
-            'index.html',
-            titulo='Login',
-            mensagem=f"Login feito com sucesso para {form.email.data}"
-        )
+        usuario = Usuario.query.filter_by(email=form.email.data).first()
+
+        if usuario and usuario.check_senha(form.senha.data):
+            login_user(usuario)
+            return redirect(url_for('produto'))
+        
+        flash('E-mail ou senha Inválidos.', 'erro')
 
     return render_template(
             "login.html", 
-            titulo="Login", 
-            form=form
+            form=form,
+            titulo="Login" 
         )
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 # Criando a base de dados se não existir
 with app.app_context():

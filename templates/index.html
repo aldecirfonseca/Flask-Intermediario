@@ -4,7 +4,11 @@
 
 {% block conteudo %}
 
-<h3>Bem vindo a página home</h3>
+{% if current_user.is_autenticated %}
+    <h3>Olá! {{ current_user.email }}</h3>
+{% endif %}
+
+<h4>Bem vindo a página home</h4>
 
 {{ mensagem }}
 
