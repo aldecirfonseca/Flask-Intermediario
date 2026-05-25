@@ -1,13 +1,70 @@
-<!-- sobre nós -->
- {% extends "base.html" %}
+{% extends "base.html" %}
 
- {% block titulo %}Sobre nós{% endblock %}
+{% block titulo %}Sobre nós — FASM{% endblock %}
 
- {% block conteudo %}
+{% block conteudo %}
 
-    <h1>Turma ADS FASM 2026, 3º período</h1>
-    <p>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
-    </p>
+<div class="row justify-content-center mt-2">
+    <div class="col-lg-8">
 
- {% endblock %}
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header border-0 py-3" style="background-color: #003E7E;">
+                <h2 class="fw-bold text-white mb-0">
+                    <i class="bi bi-mortarboard-fill me-2"></i>Sobre nós
+                </h2>
+            </div>
+            <div class="card-body py-4">
+                <h5 class="fw-bold mb-1" style="color: #C1272D;">
+                    <i class="bi bi-people-fill me-2"></i>Turma ADS &mdash; FASM 2026, 3º Período
+                </h5>
+                <hr class="mt-2 mb-3">
+                <p class="text-muted lh-lg">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                    when an unknown printer took a galley of type and scrambled it to make a type
+                    specimen book. It has survived not only five centuries, but also the leap into
+                    electronic typesetting, remaining essentially unchanged. It was popularised in
+                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                    and more recently with desktop publishing software like Aldus PageMaker
+                    including versions of Lorem Ipsum.
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-3" style="color: #003E7E;">
+                            <i class="bi bi-code-slash me-2"></i>Tecnologias utilizadas
+                        </h6>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-1"><i class="bi bi-check-circle-fill me-2" style="color: #003E7E;"></i>Python &amp; Flask</li>
+                            <li class="mb-1"><i class="bi bi-check-circle-fill me-2" style="color: #003E7E;"></i>SQLAlchemy &amp; SQLite</li>
+                            <li class="mb-1"><i class="bi bi-check-circle-fill me-2" style="color: #003E7E;"></i>Flask-Login &amp; Flask-WTF</li>
+                            <li class="mb-1"><i class="bi bi-check-circle-fill me-2" style="color: #003E7E;"></i>Bootstrap 5 &amp; Bootstrap Icons</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-3" style="color: #C1272D;">
+                            <i class="bi bi-info-circle me-2"></i>Informações do curso
+                        </h6>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-1"><i class="bi bi-building me-2 text-muted"></i>FASM — Muriaé / MG</li>
+                            <li class="mb-1"><i class="bi bi-laptop me-2 text-muted"></i>Análise e Desenvolvimento de Sistemas</li>
+                            <li class="mb-1"><i class="bi bi-calendar3 me-2 text-muted"></i>1º Semestre de 2026</li>
+                            <li class="mb-1"><i class="bi bi-book me-2 text-muted"></i>Disciplina: Desenvolvimento Web</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,36 +1,64 @@
-<!-- login -->
- {% extends "base.html" %}
+{% extends "base.html" %}
 
- {% block titulo %}{{titulo}}{% endblock %}
+{% block titulo %}Login — Loja FASM{% endblock %}
 
- {% block conteudo %}
+{% block conteudo %}
 
-    <h2>Faça seu Login</h2>
-    
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.email.label }}<br />
-            {{ form.email() }}
-            {% for error in form.email.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+<div class="row justify-content-center mt-4">
+    <div class="col-sm-10 col-md-7 col-lg-5">
+
+        <div class="card border-0 shadow">
+
+            <div class="card-header border-0 py-4 text-center" style="background-color: #003E7E; border-radius: 0.5rem 0.5rem 0 0;">
+                <i class="bi bi-person-circle display-5 text-white d-block mb-1"></i>
+                <h4 class="fw-bold text-white mb-0">Acesso ao Sistema</h4>
+                <p class="text-white-50 small mb-0">Loja FASM &mdash; ADS 2026</p>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        <label for="{{ form.email.id }}" class="form-label fw-semibold">
+                            <i class="bi bi-envelope me-1" style="color: #003E7E;"></i>{{ form.email.label.text }}
+                        </label>
+                        {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""),
+                                      placeholder="seu@email.com") }}
+                        {% for error in form.email.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.senha.id }}" class="form-label fw-semibold">
+                            <i class="bi bi-lock me-1" style="color: #003E7E;"></i>{{ form.senha.label.text }}
+                        </label>
+                        {{ form.senha(class="form-control" + (" is-invalid" if form.senha.errors else ""),
+                                      placeholder="Mínimo 6 caracteres") }}
+                        {% for error in form.senha.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-lg fw-semibold"
+                                style="background-color: #003E7E; color: white; border: none;">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-footer text-center bg-transparent border-top py-3">
+                <small class="text-muted">
+                    <i class="bi bi-shield-lock me-1"></i>
+                    Acesso restrito a usuários cadastrados
+                </small>
+            </div>
         </div>
 
-        <br />
-        
-        <div>
-            {{ form.senha.label }}<br />
-            {{ form.senha() }}
-            {% for error in form.senha.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </div>
+    </div>
+</div>
 
-        <br />
-
-        {{ form.submit() }}
-
-    </form>
-
- {% endblock %}
+{% endblock %}

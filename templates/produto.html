@@ -1,20 +1,56 @@
 {% extends "base.html" %}
 
-{% block titulo %} Produtos {% endblock %}
+{% block titulo %}Produtos — Loja FASM{% endblock %}
 
 {% block conteudo %}
 
-    {# Loop pelos produtos #}
-    <ul>
-        {% for produto in produtos %}
-            <li>
-                {{ produto.nome }} - R$ {{ produto.preco }}
-            </li>
-        {% endfor %}
-    </ul>
-    
-    {% if produtos | length == 0 %}
-        <p>Nenhum produto disponível.</p>
-    {% endif %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h2 class="fw-bold mb-0" style="color: #003E7E;">
+        <i class="bi bi-box-seam me-2"></i>Produtos
+    </h2>
+    <span class="badge rounded-pill" style="background-color: #003E7E; font-size: 0.9rem;">
+        {{ produtos | length }} item(s)
+    </span>
+</div>
+
+{% if produtos | length == 0 %}
+    <div class="alert border-0 shadow-sm d-flex align-items-center gap-3 py-4" style="background-color: #EBF2FA;">
+        <i class="bi bi-inbox fs-3" style="color: #003E7E;"></i>
+        <div>
+            <strong>Nenhum produto cadastrado.</strong>
+            <p class="mb-0 text-muted small">Adicione produtos ao banco de dados para que eles apareçam aqui.</p>
+        </div>
+    </div>
+{% else %}
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr style="background-color: #003E7E; color: white;">
+                        <th class="ps-4" style="border-radius: 0.5rem 0 0 0; width: 60px;">#</th>
+                        <th><i class="bi bi-tag me-1"></i>Produto</th>
+                        <th class="text-end pe-4" style="border-radius: 0 0.5rem 0 0;">
+                            <i class="bi bi-currency-dollar me-1"></i>Preço
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in produtos %}
+                    <tr>
+                        <td class="ps-4 text-muted small">{{ loop.index }}</td>
+                        <td class="fw-semibold">{{ produto.nome }}</td>
+                        <td class="text-end pe-4">
+                            <span class="badge rounded-pill px-3 py-2"
+                                  style="background-color: #EBF2FA; color: #003E7E; font-size: 0.95rem; font-weight: 600;">
+                                R$ {{ "%.2f"|format(produto.preco|float) }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
 
 {% endblock %}
