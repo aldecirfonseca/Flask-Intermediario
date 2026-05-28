@@ -3,15 +3,14 @@
 **Disciplina:** Técnicas de Programação  
 **Instituição:** Faculdade Santa Marcelina — FASM, Muriaé/MG  
 **Curso:** Análise e Desenvolvimento de Sistemas  
-**Professor:** Aldecir Fonseca
+**Professor:** Aldecir Fonseca  
 **Ano:** 2026
-
 
 ---
 
 ## Sobre o Módulo
 
-Este módulo aprofunda o desenvolvimento web com Flask, introduzindo banco de dados relacional, autenticação de usuários, organização modular com Blueprints e criação de APIs REST. Corresponde ao **Bloco 2 — Intermediário** da Disciplina Técnicas de Programação, Curso de Flask — Python para Desenvolvimento Web. (aulas 5 a 8).
+Este módulo aprofunda o desenvolvimento web com Flask, introduzindo banco de dados relacional, autenticação de usuários, organização modular com Blueprints e criação de APIs REST. Corresponde ao **Bloco 2 — Intermediário** da Disciplina Técnicas de Programação, Curso de Flask — Python para Desenvolvimento Web (aulas 5 a 8).
 
 ---
 
@@ -30,16 +29,32 @@ Este módulo aprofunda o desenvolvimento web com Flask, introduzindo banco de da
 
 ```
 2_INTERMEDIARIO/
-├── app.py                  # Aplicação principal
-├── banco.db                # Banco de dados SQLite (gerado automaticamente)
-├── requirements.txt        # Dependências do projeto
+├── app.py                      # Application Factory (create_app)
+├── extensions.py               # Instâncias de db e login_manager
+├── models.py                   # Modelos Produto e Usuario
+├── forms.py                    # Formulário de login (Flask-WTF)
+├── seed.py                     # Popula o banco com dados iniciais
+├── banco.db                    # Banco de dados SQLite (gerado automaticamente)
+├── blueprints/
+│   ├── main/                   # Blueprint principal (index, sobrenos)
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── auth/                   # Blueprint de autenticação (login, logout)
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   └── produtos/               # Blueprint de produtos
+│       ├── __init__.py
+│       └── routes.py
 ├── templates/
-│   ├── base.html           # Layout base com navbar e footer
-│   ├── index.html          # Página inicial
-│   ├── produto.html        # Listagem de produtos
-│   ├── login.html          # Formulário de login (Flask-WTF)
-│   └── sobrenos.html       # Página "Sobre nós"
-└── venv/                   # Ambiente virtual Python
+│   ├── base.html               # Layout base com navbar e footer
+│   ├── main/
+│   │   ├── index.html          # Página inicial
+│   │   └── sobrenos.html       # Página "Sobre nós"
+│   ├── auth/
+│   │   └── login.html          # Formulário de login
+│   └── produtos/
+│       └── produto.html        # Listagem de produtos
+└── venv/                       # Ambiente virtual Python
 ```
 
 ---
@@ -77,12 +92,13 @@ class Usuario(UserMixin, db.Model):
 
 ## Rotas da Aplicação
 
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/` | Página inicial |
-| GET | `/produto` | Listagem de produtos |
-| GET | `/sobrenos` | Página sobre nós |
-| GET / POST | `/login` | Formulário de login com validação |
+| Blueprint | Método | Rota | Descrição |
+|-----------|--------|------|-----------|
+| `main` | GET | `/` | Página inicial |
+| `main` | GET | `/sobrenos` | Página sobre nós |
+| `auth` | GET / POST | `/login` | Formulário de login com validação |
+| `auth` | GET | `/logout` | Encerra a sessão do usuário |
+| `produtos` | GET | `/produto` | Listagem de produtos (requer login) |
 
 ---
 
@@ -107,7 +123,15 @@ source venv/bin/activate
 pip install flask flask-sqlalchemy flask-login flask-wtf werkzeug
 ```
 
-### 3. Executar a aplicação
+### 3. Popular o banco com dados iniciais (opcional)
+
+```bash
+python seed.py
+```
+
+Cria 5 produtos e o usuário `admin@fasm.com` com senha `123456`.
+
+### 4. Executar a aplicação
 
 ```bash
 python app.py
@@ -133,15 +157,10 @@ Acesse em: **http://localhost:5000**
 - Controle de sessão com `login_user()` e `logout_user()`
 
 ### Aula 7 — Blueprints
-- Separação da aplicação em módulos independentes
-- Padrão **Application Factory** (`create_app()`) para facilitar testes
-- Registro de blueprints com prefixo de URL
-
-### Aula 8 — API REST
-- Retorno de respostas JSON com `jsonify()`
-- Endpoints RESTful: GET, POST, PUT, DELETE
-- Leitura de dados JSON no corpo da requisição com `request.get_json()`
-- Códigos de status HTTP corretos (200, 201, 400, 404)
+- Separação da aplicação em módulos independentes (`main`, `auth`, `produtos`)
+- Padrão **Application Factory** (`create_app()`) em `app.py`
+- Extensões isoladas em `extensions.py` para evitar importações circulares
+- Registro de blueprints com `app.register_blueprint()`
 
 ---
 
@@ -154,4 +173,4 @@ Acesse em: **http://localhost:5000**
 
 ---
 
-*Aulas ministrado por Professor Aldecir Fonseca — FASM Muriaé, MG*
+*Aulas ministradas pelo Professor Aldecir Fonseca — FASM Muriaé, MG*

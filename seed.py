@@ -1,6 +1,9 @@
 # seed.py
+from app import create_app
+from extensions import db
+from models import Produto, Usuario
 
-from app import app, db, Produto, Usuario
+app = create_app()
 
 with app.app_context():
     db.create_all()
